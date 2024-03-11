@@ -19,6 +19,7 @@ class CelebADataset(Dataset):
     def __init__(self,
                  args,
                  root_dir: Path = Path(CUR_DIR) / 'data/celeba',
+                 align_suf: str = "img_align_celeba",
                  transform=None,
                  remain_domains: int = 10,
                  sample_images: int = 1):
@@ -31,13 +32,15 @@ class CelebADataset(Dataset):
 
         if hasattr(self.args, "root_dir") and self.args.root_dir is not None:
             root_dir = Path(self.args.root_dir)
+        if hasattr(self.args, "align_suf") and self.args.align_suf is not None:
+            align_suf = Path(self.args.align_suf)
 
         # Path to folder with the dataset
         if not root_dir.exists():
             root_dir.mkdir(parents=True)
-        dataset_folder = str(Path(root_dir) / "img_align_celeba")
+        dataset_folder = str(Path(root_dir) / align_suf)
         self.dataset_folder = os.path.abspath(dataset_folder)
-        if not Path(dataset_folder).exists() and not Path(root_dir / "img_align_celeba").exists():
+        if not Path(dataset_folder).exists():
             # URL for the CelebA dataset
             download_url = 'https://drive.google.com/uc?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM'
             # Path to download the dataset to
@@ -45,7 +48,6 @@ class CelebADataset(Dataset):
             # Download the dataset from google drive
             gdown.download(download_url, download_path, quiet=False)
 
-        if not Path(root_dir / "img_align_celeba").exists():
             # Unzip the downloaded file
             download_path = str(root_dir / "img_align_celeba.zip")
             with zipfile.ZipFile(download_path, 'r') as ziphandler:
