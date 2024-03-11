@@ -42,7 +42,9 @@ class CelebADataset(Dataset):
             # Download the dataset from google drive
             gdown.download(download_url, download_path, quiet=False)
 
+        if not Path(root_dir / "img_align_celeba").exists():
             # Unzip the downloaded file
+            download_path = str(root_dir / "img_align_celeba.zip")
             with zipfile.ZipFile(download_path, 'r') as ziphandler:
                 ziphandler.extractall(root_dir)
 
