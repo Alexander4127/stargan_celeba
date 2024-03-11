@@ -1,0 +1,9 @@
+celebalucid
+gdown
+matplotlib
+munch
+natsort 
+torch
+torchvision
+tqdm
+ffmpeg
