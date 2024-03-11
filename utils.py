@@ -2,6 +2,7 @@ import os
 from os.path import join as ospj
 import json
 import glob
+from pathlib import Path
 from shutil import copyfile
 
 from tqdm import tqdm
@@ -77,6 +78,8 @@ def debug_image(nets, args, inputs, step):
 
     if args.use_wandb:
         wandb.log({"img": plt}, step=step)
+
+    plt.savefig(Path(args.sample_dir) / f"{step}.png")
 
     return plt
 
