@@ -191,7 +191,6 @@ class Discriminator(nn.Module):
         out = self.body(x)
         out = out.view(out.size(0), -1)  # (batch, num_domains)
         idx = torch.LongTensor(range(y.size(0))).to(y.device)
-        print(out.shape, idx, y)
         out = out[idx, y]  # (batch)
         return out
 
