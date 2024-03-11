@@ -73,7 +73,8 @@ def main(args):
 
     # iters
     args.resume_iter = 0
-    args.total_iter = 100
+    args.total_iter = 20
+    args.ds_iter = 20
 
     # logging
     args.print_every = 100
@@ -85,6 +86,9 @@ def main(args):
     args.lambda_ds = 1
     args.lambda_cyc = 1
     args.lambda_reg = 1
+
+    # sampling
+    args.num_outs_per_domain = 3
 
     Solver(args).train()
 
