@@ -91,6 +91,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--root_dir", type=str, default=None)
 
     args = parser.parse_args()
     main(args)

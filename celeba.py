@@ -29,6 +29,9 @@ class CelebADataset(Dataset):
         """
         self.args = args
 
+        if hasattr(self.args, "root_dir") and self.args.root_dir is not None:
+            root_dir = Path(self.args.root_dir)
+
         # Path to folder with the dataset
         if not root_dir.exists():
             root_dir.mkdir(parents=True)
