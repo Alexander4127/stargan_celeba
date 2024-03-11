@@ -7,7 +7,6 @@ from munch import Munch
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import wandb
 
 from model import build_model
 from checkpoint import CheckpointIO
