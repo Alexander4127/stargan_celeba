@@ -53,11 +53,9 @@ def save_image(x, ncol, filename):
 def translate_and_reconstruct(nets, args, x_src, y_src, x_ref, y_ref, filename):
     N, C, H, W = x_src.size()
     s_ref = nets.style_encoder(x_ref, y_ref)
-    masks = nets.fan.get_heatmap(x_src) if args.w_hpf > 0 else None
-    x_fake = nets.generator(x_src, s_ref, masks=masks)
+    x_fake = nets.generator(x_src, s_ref)
     s_src = nets.style_encoder(x_src, y_src)
-    masks = nets.fan.get_heatmap(x_fake) if args.w_hpf > 0 else None
-    x_rec = nets.generator(x_fake, s_src, masks=masks)
+    x_rec = nets.generator(x_fake, s_src)
     x_concat = [x_src, x_ref, x_fake, x_rec]
     x_concat = torch.cat(x_concat, dim=0)
     save_image(x_concat, N, filename)
@@ -69,7 +67,6 @@ def translate_using_latent(nets, args, x_src, y_trg_list, z_trg_list, psi, filen
     N, C, H, W = x_src.size()
     latent_dim = z_trg_list[0].size(1)
     x_concat = [x_src]
-    masks = nets.fan.get_heatmap(x_src) if args.w_hpf > 0 else None
 
     for i, y_trg in enumerate(y_trg_list):
         z_many = torch.randn(10000, latent_dim).to(x_src.device)
@@ -81,7 +78,7 @@ def translate_using_latent(nets, args, x_src, y_trg_list, z_trg_list, psi, filen
         for z_trg in z_trg_list:
             s_trg = nets.mapping_network(z_trg, y_trg)
             s_trg = torch.lerp(s_avg, s_trg, psi)
-            x_fake = nets.generator(x_src, s_trg, masks=masks)
+            x_fake = nets.generator(x_src, s_trg)
             x_concat += [x_fake]
 
     x_concat = torch.cat(x_concat, dim=0)
@@ -94,12 +91,11 @@ def translate_using_reference(nets, args, x_src, x_ref, y_ref, filename):
     wb = torch.ones(1, C, H, W).to(x_src.device)
     x_src_with_wb = torch.cat([wb, x_src], dim=0)
 
-    masks = nets.fan.get_heatmap(x_src) if args.w_hpf > 0 else None
     s_ref = nets.style_encoder(x_ref, y_ref)
     s_ref_list = s_ref.unsqueeze(1).repeat(1, N, 1)
     x_concat = [x_src_with_wb]
     for i, s_ref in enumerate(s_ref_list):
-        x_fake = nets.generator(x_src, s_ref, masks=masks)
+        x_fake = nets.generator(x_src, s_ref)
         x_fake_with_ref = torch.cat([x_ref[i:i+1], x_fake], dim=0)
         x_concat += [x_fake_with_ref]
 
