@@ -84,6 +84,7 @@ def main(args):
     args.lambda_sty = 1
     args.lambda_ds = 1
     args.lambda_cyc = 1
+    args.lambda_reg = 1
 
     Solver(args).train()
 
