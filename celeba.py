@@ -115,6 +115,9 @@ class CelebADataset(Dataset):
 
         return Munch(x=images, y=domain)
 
+    def get_label(self, dom_idx):
+        return self.header[dom_idx]
+
 
 class RandomDataset(Dataset):
     def __init__(self, args, size):

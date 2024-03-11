@@ -7,12 +7,15 @@ from tqdm.auto import trange
 from lpips_pytorch import LPIPS
 from torchvision import transforms
 from munch import Munch
+import wandb
 
 from celeba import CelebADataset, RandomDataset
 from solver import Solver
 
 
 def main(args):
+    if args.use_wandb:
+        wandb.init(project="stargan")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # model params
@@ -33,7 +36,7 @@ def main(args):
     dataset = CelebADataset(args, transform=transform)
     ref_dataset = CelebADataset(args, transform=transform, sample_images=2)
     rand_dataset = RandomDataset(args, size=len(dataset))
-    args.data = [dataset, ref_dataset, rand_dataset]
+    args.datasets = [dataset, ref_dataset, rand_dataset]
 
     args.num_domains = len(dataset.header)
 
@@ -77,9 +80,10 @@ def main(args):
     args.ds_iter = 20
 
     # logging
-    args.print_every = 100
-    args.sample_every = 100
-    args.save_every = 1000
+    args.use_wandb = True
+    args.print_every = 250
+    args.sample_every = 250
+    args.save_every = 10000
 
     # loss coefs
     args.lambda_sty = 1
@@ -96,6 +100,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--use_wandb", type=bool, default=True)
     parser.add_argument("--root_dir", type=str, default=None)
     parser.add_argument("--align_suf", type=str, default=None)
 

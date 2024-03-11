@@ -7,6 +7,7 @@ from munch import Munch
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import wandb
 
 from model import build_model
 from checkpoint import CheckpointIO
@@ -149,6 +150,8 @@ class Solver(nn.Module):
                     all_losses['G/lambda_ds'] = args.lambda_ds
                     log += ' '.join(['%s: [%.4f]' % (key, value) for key, value in all_losses.items()])
                     print(log)
+                    if args.use_wandb:
+                        wandb.log(all_losses, step=i)
 
                 # generate images for debugging
                 if (i + 1) % args.sample_every == 0:
