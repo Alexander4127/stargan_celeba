@@ -160,7 +160,7 @@ class Solver(nn.Module):
                     self._save_checkpoint(step=i+1)
 
 
-def compute_d_loss(nets, args, x_real, y_org, y_trg, z_trg=None, x_ref=None, masks=None):
+def compute_d_loss(nets, args, x_real, y_org, y_trg, z_trg=None, x_ref=None):
     assert (z_trg is None) != (x_ref is None)
     # with real images
     x_real.requires_grad_()
@@ -175,7 +175,7 @@ def compute_d_loss(nets, args, x_real, y_org, y_trg, z_trg=None, x_ref=None, mas
         else:  # x_ref is not None
             s_trg = nets.style_encoder(x_ref, y_trg)
 
-        x_fake = nets.generator(x_real, s_trg, masks=masks)
+        x_fake = nets.generator(x_real, s_trg)
     out = nets.discriminator(x_fake, y_trg)
     loss_fake = adv_loss(out, 0)
 
