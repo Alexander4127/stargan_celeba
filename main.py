@@ -14,6 +14,8 @@ from solver import Solver
 
 
 def main(args):
+    # print(args.use_wandb, bool(args.use_wandb))
+    # exit(0)
     if args.use_wandb:
         wandb.init(project="stargan")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
