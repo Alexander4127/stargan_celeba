@@ -34,7 +34,7 @@ class CelebADataset(Dataset):
             root_dir.mkdir(parents=True)
         dataset_folder = str(Path(root_dir) / "img_align_celeba")
         self.dataset_folder = os.path.abspath(dataset_folder)
-        if not Path(dataset_folder).exists():
+        if not Path(dataset_folder).exists() and not Path(root_dir / "img_align_celeba").exists():
             # URL for the CelebA dataset
             download_url = 'https://drive.google.com/uc?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM'
             # Path to download the dataset to
