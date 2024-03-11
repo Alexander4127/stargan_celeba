@@ -80,7 +80,6 @@ def main(args):
     args.ds_iter = 20
 
     # logging
-    args.use_wandb = True
     args.print_every = 250
     args.sample_every = 250
     args.save_every = 10000
