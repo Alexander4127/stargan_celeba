@@ -3,7 +3,6 @@ import torch
 import torch.nn.functional as F
 import torch.utils.data
 from tqdm.auto import trange
-import wandb
 
 from lpips_pytorch import LPIPS
 from torchvision import transforms
