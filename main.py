@@ -14,8 +14,6 @@ from solver import Solver
 
 
 def main(args):
-    # print(args.use_wandb, bool(args.use_wandb))
-    # exit(0)
     if args.use_wandb:
         wandb.init(project="stargan")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -101,7 +99,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch_size", type=int, default=32)
-    parser.add_argument("--use_wandb", type=bool, default=True)
+    parser.add_argument("--use_wandb", type=int, default=True)
     parser.add_argument("--root_dir", type=str, default=None)
     parser.add_argument("--align_suf", type=str, default=None)
 
