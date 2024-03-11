@@ -82,7 +82,7 @@ def main(args):
     # logging
     args.print_every = 250
     args.sample_every = 250
-    args.save_every = 10000
+    args.save_every = 1000
 
     # loss coefs
     args.lambda_sty = 1
